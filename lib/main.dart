@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'provider/pokemon_provider.dart';
-import 'models/pokemon.dart';
+import 'provider/api_provider.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -12,46 +12,51 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => PokemonProvider()),
+        ChangeNotifierProvider(create: (_) => FoxProvider()),
       ],
       child: MaterialApp(
-        title: 'Flutter PokeAPI Demo',
-        home: PokemonListScreen(),
+        title: 'Flutter Fox API',
+        home: FoxScreen(),
       ),
     );
   }
 }
 
-class PokemonListScreen extends StatelessWidget {
+class FoxScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pokémon List'),
+        title: Text('ZORRO'),
       ),
-      body: Consumer<PokemonProvider>(
+      body: Consumer<FoxProvider>(
         builder: (context, provider, child) {
           if (provider.isLoading) {
             return Center(child: CircularProgressIndicator());
           }
 
-          return ListView.builder(
-            itemCount: provider.pokemonList.length,
-            itemBuilder: (context, index) {
-              Pokemon pokemon = provider.pokemonList[index];
-              return ListTile(
-                title: Text(pokemon.name),
-                onTap: () {
-                  // Puedes agregar una navegación a un detalle de Pokémon aquí
-                },
-              );
-            },
+          if (provider.fox == null) {
+            return Center(child: Text('Buscar zorro'));
+          }
+
+          return Column(
+            children: [
+              Container(
+                height: 200, // Ajusta la altura según lo necesites
+                child: Image.network(
+                  provider.fox!.image,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              SizedBox(height: 10),
+              Text(provider.fox!.link, style: TextStyle(fontSize: 16)),
+            ],
           );
         },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Provider.of<PokemonProvider>(context, listen: false).fetchPokemon();
+          Provider.of<FoxProvider>(context, listen: false).fetchFox();
         },
         child: Icon(Icons.refresh),
       ),

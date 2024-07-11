@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import '../models/pokemon.dart';
+import '../models/api_model.dart';
 import '../services/api_services.dart';
 
-class PokemonProvider with ChangeNotifier {
+class FoxProvider with ChangeNotifier {
   final ApiServices _apiService = ApiServices();
-  List<Pokemon> _pokemonList = [];
+  Fox? _fox;
   bool _isLoading = false;
 
-  List<Pokemon> get pokemonList => _pokemonList;
+  Fox? get fox => _fox;
   bool get isLoading => _isLoading;
 
-  Future<void> fetchPokemon() async {
+  Future<void> fetchFox() async {
     _isLoading = true;
     notifyListeners();
 
-    _pokemonList = await _apiService.fetchPokemosnList();
+    _fox = await _apiService.fetchFox();
     _isLoading = false;
     notifyListeners();
   }
