@@ -27,7 +27,7 @@ class FoxScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('ZORRO'),
+        title: Text('Zorro'),
       ),
       body: Consumer<FoxProvider>(
         builder: (context, provider, child) {
@@ -39,18 +39,25 @@ class FoxScreen extends StatelessWidget {
             return Center(child: Text('Buscar zorro'));
           }
 
-          return Column(
-            children: [
-              Container(
-                height: 200, // Ajusta la altura según lo necesites
-                child: Image.network(
-                  provider.fox!.image,
-                  fit: BoxFit.cover,
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  height: 200, // Ajusta la altura según lo necesites
+                  child: Image.network(
+                    provider.fox!.image,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-              SizedBox(height: 10),
-              Text(provider.fox!.link, style: TextStyle(fontSize: 16)),
-            ],
+                SizedBox(height: 10),
+                Text(
+                  provider.fox!.link,
+                  style: TextStyle(fontSize: 16),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
           );
         },
       ),
